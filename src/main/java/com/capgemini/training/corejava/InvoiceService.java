@@ -11,6 +11,10 @@ public class InvoiceService {
         this.rideRepository = new RideRepository();
     }
 
+    public InvoiceService(RideRepository rideRepository) {
+        this.rideRepository = rideRepository;
+    }
+
     public double calculateFare(double distance, int time) {
         double totalFare = distance * MINIMUM_COST_PER_KM + time * COST_PER_TIME;
         return Math.max(totalFare, MINIMUM_FARE);
@@ -19,7 +23,7 @@ public class InvoiceService {
     public InvoiceSummary calculateFare(Ride[] rides) {
         double totalFare = 0.0;
         for (Ride ride : rides)
-            totalFare += this.calculateFare(ride.distance, ride.time);
+            totalFare += ride.CabRides.calcCostOfCabRide(ride);
         return new InvoiceSummary(rides.length, totalFare);
     }
 
