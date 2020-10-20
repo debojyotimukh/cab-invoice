@@ -7,18 +7,18 @@ import org.junit.Before;
 
 public class InvoiceServiceTest {
 
-    public InvoiceGenerator invoiceGenerator;
+    public InvoiceService invoiceService;
 
     @Before
     public void init() {
-        invoiceGenerator = new InvoiceGenerator();
+        invoiceService = new InvoiceService();
     }
 
     @Test
     public void givenDistanceAndTime_ShouldReturnTotalFare() {
         double distance = 2.0;
         int time = 5;
-        double fare = invoiceGenerator.calculateFare(distance, time);
+        double fare = invoiceService.calculateFare(distance, time);
         Assert.assertEquals(25, fare, 0.0);
     }
 
@@ -26,15 +26,25 @@ public class InvoiceServiceTest {
     public void givenLessDistanceAndTime_shouldReturnMinFare() {
         double distance = 0.1;
         int time = 1;
-        double fare = invoiceGenerator.calculateFare(distance, time);
+        double fare = invoiceService.calculateFare(distance, time);
         Assert.assertEquals(5, fare, 0.0);
     }
 
     @Test
     public void givenMultipleRides_shouldReturnInvoiceSummary() {
         Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
-        InvoiceSummary invoiceSummary = invoiceGenerator.calculateFare(rides);
-        InvoiceSummary expectedInvoiceSummry = new InvoiceSummary(2,30.0);
+        InvoiceSummary invoiceSummary = invoiceService.calculateFare(rides);
+        InvoiceSummary expectedInvoiceSummry = new InvoiceSummary(2, 30.0);
+        Assert.assertEquals(expectedInvoiceSummry, invoiceSummary);
+    }
+
+    @Test
+    public void givenUserIdAndRides_shouldReturnInvoiceSummary() {
+        String userId = "bgb.com";
+        Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
+        invoiceService.addRides(userId, rides);
+        InvoiceSummary invoiceSummary = invoiceService.getInvoiceSummary(userId);
+        InvoiceSummary expectedInvoiceSummry = new InvoiceSummary(2, 30.0);
         Assert.assertEquals(expectedInvoiceSummry, invoiceSummary);
     }
 }
