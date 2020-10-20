@@ -43,8 +43,10 @@ public class InvoiceServiceTest {
         String userId = "bgb.com";
         Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
         invoiceService.addRides(userId, rides);
+        Ride[] rides1 = { new Ride(2.0, 5), new Ride(0.1, 1) };
+        invoiceService.addRides(userId, rides1);
         InvoiceSummary invoiceSummary = invoiceService.getInvoiceSummary(userId);
-        InvoiceSummary expectedInvoiceSummry = new InvoiceSummary(2, 30.0);
+        InvoiceSummary expectedInvoiceSummry = new InvoiceSummary(2, 60.0);
         Assert.assertEquals(expectedInvoiceSummry, invoiceSummary);
     }
 }
